@@ -1,0 +1,15 @@
+chainlit
+langgraph
+langchain
+langchain-community
+langchain-google-genai
+easyocr
+pdf2image
+pytesseract
+sentence_transformers
+python-dotenv
+pymupdf
+scikit-learn
+pillow
+torch
+transformers
