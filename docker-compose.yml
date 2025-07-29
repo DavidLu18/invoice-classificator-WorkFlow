@@ -1,8 +1,9 @@
-version: "3.8"
+# Remove obsolete version field for cleaner docker-compose
 
 services:
+  # Default service - LlamaIndex Workflow (Mới)
   app:
-    container_name: app
+    container_name: invoice-classificator-llamaindex
     build:
       context: .
       dockerfile: Dockerfile
@@ -13,9 +14,28 @@ services:
     volumes:
       - .:/app  # Mount the current directory to the /app directory in the container
       - /.env:/.env
+    command: chainlit run app_llamaindex.py --host=0.0.0.0 --port=8000
+    networks:
+      - app-network
+
+  # LangGraph version (Legacy) - uncomment if needed  
+  app-langgraph:
+    container_name: invoice-classificator-langgraph
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "8001:8000"  # Different port to avoid conflict
+    volumes:
+      - .:/app
+      - /.env:/.env
     command: chainlit run app.py --host=0.0.0.0 --port=8000
     networks:
       - app-network
+    profiles:
+      - legacy  # Use profile to optionally start this service
 
 networks:
   app-network:
